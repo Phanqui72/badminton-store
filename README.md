@@ -17,16 +17,6 @@ This is a service reserved for authentication and authorization based on Oauth2 
     spring.datasource.username=<username>
     spring.datasource.password=<password>
     ```
-- Rabbitmq config
-    ```
-    spring.rabbitmq.host=<host rabbitmq>
-    spring.rabbitmq.port=<port rabbitmq>
-    spring.rabbitmq.username=<user rabbitmq>
-    spring.rabbitmq.password=<password>
-
-    app.rabbitmq.exchange.topic.userEvent=User_Event
-    app.rabbitmq.queue.new.user=new_user
-    ```
 
 -   Initial data
     Currently all initial data will define on `/resource/data.sql`
