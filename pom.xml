@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mgr.api</groupId>
-    <artifactId>mgr-api</artifactId>
+    <groupId>com.badminton.store</groupId>
+    <artifactId>badminton-store</artifactId>
     <version>1.0.0</version>
     <name>mgr-api</name>
     <packaging>jar</packaging>
@@ -40,8 +40,8 @@
                 <db.url>jdbc:mysql://localhost:4000/db_mgr</db.url>
                 <db.username>root</db.username>
                 <db.password>root</db.password>
-                <package.model>com.mgr.api.model</package.model>
-                <package.repository>com.mgr.api.repository</package.repository>
+                <package.model>com.badminton.store.model</package.model>
+                <package.repository>com.badminton.store.repository</package.repository>
             </properties>
         </profile>
     </profiles>
@@ -431,11 +431,11 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+<!--            'build.plugins.plugin.(groupId:artifactId)' must be unique-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
