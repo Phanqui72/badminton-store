@@ -1,0 +1,56 @@
+### --- Java & Spring Boot ---
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+# Thư mục build của Maven
+target/
+# Thư mục build của Gradle
+build/
+.gradle/
+bin/
+
+### --- Log Files ---
+*.log
+logs/
+temp/
+
+### --- JetBrains IDE (IntelliJ IDEA) ---
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+# Nếu bạn muốn giữ lại cấu hình run configurations thì bỏ dòng dưới
+.idea/runConfigurations/
+
+### --- Eclipse ---
+.metadata/
+.classpath
+.project
+.settings/
+*.launch
+.factorypath
+
+### --- VS Code ---
+.vscode/
+
+### --- Hệ điều hành ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### --- Cấu hình bảo mật & Môi trường ---
+.env
+.env.local
+*.properties
+# Ngoại lệ: Giữ lại file application.properties gốc,
+# nhưng bỏ qua các file cấu hình local/nhạy cảm
+!src/main/resources/application.properties
+src/main/resources/application-local.properties
+src/main/resources/application-dev.properties
+
+### --- Crash dumps ---
+*.hprof
+*.orig
