@@ -11,6 +11,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+// add annatation to mapping inheritance and i want add a account_id feild on seller table
+// JOINED: 1 class is 1 table, when we query it will join 2 table (only query not  crate table)
+// SINGLE_TABLE : all field in 1 table
+// TABLE_PER_CLASS: 1 Parent table will contain all supper class field
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = TablePrefix.PREFIX_TABLE + "account")
 @EntityListeners(AuditingEntityListener.class)
 @Getter

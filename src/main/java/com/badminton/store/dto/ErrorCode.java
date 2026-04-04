@@ -16,6 +16,7 @@ public class ErrorCode {
     public static final String ACCOUNT_ERROR_UNABLE_UPDATE = "ERROR-ACCOUNT-0004";
     public static final String ACCOUNT_ERROR_UNABLE_DELETE = "ERROR-ACCOUNT-0005";
 
+    public static final String ACCOUNT_ERROR_EMAIL_EXISTED = "ERROR-EMAIL-0001";
     /**
      * Starting error code DATABASE_ERROR
      */
