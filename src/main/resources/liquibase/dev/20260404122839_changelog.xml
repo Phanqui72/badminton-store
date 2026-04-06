@@ -1,0 +1,72 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="phantrongphu (generated)" id="1775305727720-1">
+        <createTable tableName="db_mgr_address">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="db_mgr_addressPK"/>
+            </column>
+            <column name="is_default" type="BIT"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="zip_code" type="VARCHAR(255)"/>
+            <column name="commune" type="BIGINT"/>
+            <column name="district" type="BIGINT"/>
+            <column name="province" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-2">
+        <createTable tableName="db_mgr_nation">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="db_mgr_nationPK"/>
+            </column>
+            <column name="kind" type="INT"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="parent_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-3">
+        <addColumn tableName="db_mgr_account">
+            <column name="dtype" type="varchar(31)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-4">
+        <addColumn tableName="db_mgr_account">
+            <column name="gender" type="varchar(10)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-5">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="db_mgr_address" constraintName="FK25ewdtca5hlnrt4p2c3m4lwe8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_account" validate="true"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-6">
+        <addForeignKeyConstraint baseColumnNames="province" baseTableName="db_mgr_address" constraintName="FK281v8jltovs0xeo4bwadgb8c2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_nation" validate="true"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-7">
+        <addForeignKeyConstraint baseColumnNames="commune" baseTableName="db_mgr_address" constraintName="FKjmps44kbq06kmws5x9pwc8hbi" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_nation" validate="true"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-8">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="db_mgr_nation" constraintName="FKqrph391pyapy5gj6ew357e0x7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_nation" validate="true"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-9">
+        <addForeignKeyConstraint baseColumnNames="district" baseTableName="db_mgr_address" constraintName="FKskp7axqsp86lsnbuafrbg1bcd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_nation" validate="true"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-10">
+        <dropTable tableName="oauth_access_token"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-11">
+        <dropTable tableName="oauth_approvals"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-12">
+        <dropTable tableName="oauth_client_details"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-13">
+        <dropTable tableName="oauth_client_token"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-14">
+        <dropTable tableName="oauth_code"/>
+    </changeSet>
+    <changeSet author="phantrongphu (generated)" id="1775305727720-15">
+        <dropTable tableName="oauth_refresh_token"/>
+    </changeSet>
+</databaseChangeLog>
