@@ -255,4 +255,61 @@
         <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9137000000004"/></insert>
         <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9137000000005"/></insert>
     </changeSet>
+    <changeSet id="1775283844830-5" author="Authentication">
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9138000000001"/>
+            <column name="name" value="Create User"/>
+            <column name="action" value="/v1/user/create"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="Create User"/>
+            <column name="name_group" value="User"/>
+            <column name="permission_code" value="U_C"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9138000000002"/>
+            <column name="name" value="Update User"/>
+            <column name="action" value="/v1/user/update"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="Update User"/>
+            <column name="name_group" value="User"/>
+            <column name="permission_code" value="U_U"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9138000000003"/>
+            <column name="name" value="Get User"/>
+            <column name="action" value="/v1/user/get/*"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="Get User"/>
+            <column name="name_group" value="User"/>
+            <column name="permission_code" value="U_V"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="db_mgr_permission_group">
+            <column name="group_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="9138000000001"/>
+        </insert>
+        <insert tableName="db_mgr_permission_group">
+            <column name="group_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="9138000000002"/>
+        </insert>
+        <insert tableName="db_mgr_permission_group">
+            <column name="group_id" valueNumeric="1"/>
+            <column name="permission_id" valueNumeric="9138000000003"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

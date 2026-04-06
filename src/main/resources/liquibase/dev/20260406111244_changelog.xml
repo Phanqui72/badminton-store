@@ -1,0 +1,161 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Authentication" id="1775473972335-1">
+        <createTable tableName="db_mgr_cart">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="db_mgr_cartPK"/>
+            </column>
+            <column name="total_item" type="INT"/>
+            <column name="total_price" type="DOUBLE PRECISION"/>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-2">
+        <createTable tableName="db_mgr_cart_item">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="db_mgr_cart_itemPK"/>
+            </column>
+            <column name="price" type="DOUBLE PRECISION"/>
+            <column name="quantity" type="INT"/>
+            <column name="cart_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-3">
+        <createTable tableName="db_mgr_coupon">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="db_mgr_couponPK"/>
+            </column>
+            <column name="code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="discount_type" type="INT"/>
+            <column name="discount_value" type="DOUBLE PRECISION"/>
+            <column name="expired_date" type="datetime"/>
+            <column name="limit_usage" type="INT"/>
+            <column name="used" type="INT"/>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-4">
+        <createTable tableName="db_mgr_order">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="db_mgr_orderPK"/>
+            </column>
+            <column name="receiver_name" type="VARCHAR(255)"/>
+            <column name="receiver_phone" type="VARCHAR(255)"/>
+            <column name="shipping_address" type="VARCHAR(255)"/>
+            <column name="total_price" type="DOUBLE PRECISION"/>
+            <column name="coupon_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-5">
+        <createTable tableName="db_mgr_order_detail">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="db_mgr_order_detailPK"/>
+            </column>
+            <column name="price" type="DOUBLE PRECISION"/>
+            <column name="quantity" type="INT"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-6">
+        <addUniqueConstraint columnNames="code" constraintName="UC_DB_MGR_COUPONCODE_COL" tableName="db_mgr_coupon"/>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-7">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="db_mgr_order" constraintName="FK1m7wotw87m4bxj3e5btto805d" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-8">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="db_mgr_order_detail" constraintName="FK37qe9f5rp6nt4u917d2bupu8n" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_product" validate="true"/>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-9">
+        <addForeignKeyConstraint baseColumnNames="cart_id" baseTableName="db_mgr_cart_item" constraintName="FKdoal161pv43uceo9akoo6x947" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_cart" validate="true"/>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-10">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="db_mgr_cart" constraintName="FKg6iw3a75qncmh4782h56dv3q2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-11">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="db_mgr_cart_item" constraintName="FKldlin8ovx423y2yfh3jegfv3w" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_product" validate="true"/>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-12">
+        <addForeignKeyConstraint baseColumnNames="coupon_id" baseTableName="db_mgr_order" constraintName="FKlj1quugsk3gkhcifxtk1l7e3u" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_coupon" validate="true"/>
+    </changeSet>
+    <changeSet author="Authentication" id="1775473972335-13">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="db_mgr_order_detail" constraintName="FKrkupaa72pi65vkl0khyrek09n" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="db_mgr_order" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
