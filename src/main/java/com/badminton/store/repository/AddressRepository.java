@@ -1,0 +1,17 @@
+package com.badminton.store.repository;
+
+import com.badminton.store.model.Address;
+import com.badminton.store.model.Nation;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import javax.transaction.Transactional;
+
+public interface AddressRepository extends JpaRepository<Address, Long>, JpaSpecificationExecutor<Address> {
+    @Modifying
+    @Transactional
+    @Query("UPDATE Address a SET a.isDefault = false WHERE a.user.id = :userId")
+    void unsetDefaultByUserId(Long userId);
+}
