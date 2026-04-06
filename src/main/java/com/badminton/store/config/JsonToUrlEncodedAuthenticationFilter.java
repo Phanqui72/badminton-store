@@ -34,6 +34,11 @@ public class JsonToUrlEncodedAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("Token request content type: {}", request.getContentType());
+        System.out.println("Filter checking URI: " + request.getRequestURI());
+        if (request.getRequestURI().contains("/api/token")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         if (Objects.equals(request.getServletPath(), "/api/token") && request.getContentType() != null && request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
 
             byte[] json = ByteStreams.toByteArray(request.getInputStream());

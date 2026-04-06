@@ -1,11 +1,14 @@
 package com.badminton.store.service.impl;
 
 import com.badminton.store.constant.MgrConstant;
+import com.badminton.store.dto.AuthTokenRequest;
+import com.badminton.store.feign.AuthFeignClient;
 import com.badminton.store.jwt.MgrJwt;
 import com.badminton.store.model.Account;
 import com.badminton.store.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,7 +44,6 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String userId) {
         Account user = accountRepository.findFirstByUsername(userId).orElse(null);
