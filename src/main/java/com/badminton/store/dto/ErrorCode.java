@@ -20,6 +20,8 @@ public class ErrorCode {
 
     public static final String ACCOUNT_ERROR_PHONE_EXISTED = "ERROR-PHONE-0001";
     public static final String CATEGORY_ERROR_NOT_FOUND = "ERROR-CATEGORY-0001";
+    public static final String PRODUCT_ERROR_NOT_FOUND = "ERROR-PRODUCT-0001";
+
     /**
      * Starting error code DATABASE_ERROR
      */
