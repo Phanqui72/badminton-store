@@ -77,4 +77,97 @@
             <column name="status" valueNumeric="1"/>
         </insert>
     </changeSet>
+    <changeSet id="1775283844830-2" author="Authentication">
+        <!-- 1. Create Category -->
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9136000000001"/>
+            <column name="name" value="Create Category"/>
+            <column name="action" value="/v1/category/create"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="Create Category"/>
+            <column name="name_group" value="Category"/>
+            <column name="permission_code" value="CAT_C"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+        <!-- 2. Update Category -->
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9136000000002"/>
+            <column name="name" value="Update Category"/>
+            <column name="action" value="/v1/category/update"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="Update Category"/>
+            <column name="name_group" value="Category"/>
+            <column name="permission_code" value="CAT_U"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+        <!-- 3. Get Category -->
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9136000000003"/>
+            <column name="name" value="Get Category"/>
+            <column name="action" value="/v1/category/get/*"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="Get Category"/>
+            <column name="name_group" value="Category"/>
+            <column name="permission_code" value="CAT_V"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+        <!-- 4. List Category -->
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9136000000004"/>
+            <column name="name" value="List Category"/>
+            <column name="action" value="/v1/category/list"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="List Category"/>
+            <column name="name_group" value="Category"/>
+            <column name="permission_code" value="CAT_L"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+        <!-- 5. Delete Category -->
+        <insert tableName="db_mgr_permission">
+            <column name="id" valueNumeric="9136000000005"/>
+            <column name="name" value="Delete Category"/>
+            <column name="action" value="/v1/category/delete/*"/>
+            <column name="show_menu" valueNumeric="0"/>
+            <column name="description" value="Delete Category"/>
+            <column name="name_group" value="Category"/>
+            <column name="permission_code" value="CAT_D"/>
+            <column name="created_by" value="admin"/>
+            <column name="created_date" valueComputed="now()"/>
+            <column name="modified_by" value="admin"/>
+            <column name="modified_date" valueComputed="now()"/>
+            <column name="status" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1775283844830-3" author="Authentication">
+        <!-- Gán quyền cho Seller -->
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9135000000001"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9135000000002"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9135000000003"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9135000000004"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9135000000005"/></insert>
+
+        <!-- Gán quyền cho Category -->
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9136000000001"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9136000000002"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9136000000003"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9136000000004"/></insert>
+        <insert tableName="db_mgr_permission_group"><column name="group_id" valueNumeric="1"/><column name="permission_id" valueNumeric="9136000000005"/></insert>
+    </changeSet>
 </databaseChangeLog>
