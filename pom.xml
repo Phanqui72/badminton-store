@@ -357,9 +357,9 @@
                     <diffChangeLogFile>${changelog.dir}/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <outputChangeLogFile>${changelog.dir}/db.changelog-1.0.0.xml</outputChangeLogFile>
                     <driver>com.mysql.cj.jdbc.Driver</driver>
-                    <url>${db.url}</url>
-                    <username>${db.username}</username>
-                    <password>${db.password}</password>
+                    <url>jdbc:mysql://127.0.0.1:3306/badminton_store?useSSL=false</url>
+                    <username>root</username>
+                    <password>123456</password>
                     <referenceUrl>
                         hibernate:spring:${package.model},${package.repository}?dialect=org.hibernate.dialect.MySQL5Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
                     </referenceUrl>
