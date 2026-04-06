@@ -41,17 +41,25 @@ public class UserController extends ABasicController{
     public ApiMessageDto<String> create(@Valid @RequestBody CreateUserForm createUserForm, BindingResult bindingResult) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
 
-        // Check username tồn tại
-        User existingUser = userRepository.findFirstByUsername(createUserForm.getUsername());
+        User existingUser = userRepository.findExistingUser(
+                createUserForm.getUsername(),
+                createUserForm.getEmail(),
+                createUserForm.getPhone()
+        );
         if (existingUser != null) {
-            throw new BadRequestException("Username already exists!", ErrorCode.USER_ERROR_USERNAME_EXISTED);
+            if (StringUtils.equals(existingUser.getUsername(), createUserForm.getUsername())) {
+                throw new BadRequestException("Username already exists!", ErrorCode.USER_ERROR_USERNAME_EXISTED);
+            }
+            if (StringUtils.equals(existingUser.getEmail(), createUserForm.getEmail())) {
+                throw new BadRequestException("Email already exists!", ErrorCode.USER_ERROR_EMAIL_EXISTED);
+            }
+            if (StringUtils.equals(existingUser.getPhone(), createUserForm.getPhone())) {
+                throw new BadRequestException("Phone already exists!", ErrorCode.USER_ERROR_PHONE_EXISTED);
+            }
         }
-
-        // Check Group tồn tại
-        Group group = groupRepository.findById(createUserForm.getGroupId()).orElse(null);
-        if (group == null) {
-            throw new NotFoundException("Group not found!", ErrorCode.GROUP_ERROR_NOT_FOUND);
-        }
+        //Check group
+        Group group = groupRepository.findById(createUserForm.getGroupId())
+                .orElseThrow(() -> new NotFoundException("Group not found!", ErrorCode.GROUP_ERROR_NOT_FOUND));
 
         User user = userMapper.fromCreateUserFormToEntity(createUserForm);
         user.setGroup(group);

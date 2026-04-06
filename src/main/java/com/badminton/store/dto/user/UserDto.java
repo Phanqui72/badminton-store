@@ -2,9 +2,9 @@ package com.badminton.store.dto.user;
 
 import com.badminton.store.dto.address.AddressDto;
 import com.badminton.store.dto.group.GroupDto;
-import com.badminton.store.enums.Gender;
 import com.badminton.store.model.Address;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class UserDto {
     @ApiModelProperty(name = "avatar")
     private String avatar;
     @ApiModelProperty(name = "gender")
-    private Gender gender;
+    private Integer gender;
     @ApiModelProperty(name = "address")
     private List<AddressDto> address;
 

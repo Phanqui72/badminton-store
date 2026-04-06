@@ -36,4 +36,6 @@ public class ErrorCode {
 
     public static final String USER_ERROR_USERNAME_EXISTED = "ERROR-USER-0001";
     public static final String USER_ERROR_NOT_FOUND = "ERROR-USER-0002";
+    public static final String USER_ERROR_EMAIL_EXISTED = "ERROR-USER-0003";
+    public static final String USER_ERROR_PHONE_EXISTED = "ERROR-USER-0004";
 }

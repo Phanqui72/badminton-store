@@ -1,6 +1,5 @@
 package com.badminton.store.model;
 
-import com.badminton.store.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,10 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class User extends Account {
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 10)
-    private Gender gender; // dung interger
-
+    private Integer gender;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Address> address;
 

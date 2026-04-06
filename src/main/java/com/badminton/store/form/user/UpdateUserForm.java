@@ -1,6 +1,6 @@
 package com.badminton.store.form.user;
 
-import com.badminton.store.enums.Gender;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -19,7 +19,7 @@ public class UpdateUserForm {
     private String phone;
 
     @ApiModelProperty(name = "gender")
-    private Gender gender;
+    private Integer gender;
 
     @ApiModelProperty(name = "avatarPath")
     private String avatarPath;

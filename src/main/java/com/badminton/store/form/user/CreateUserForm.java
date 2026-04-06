@@ -1,6 +1,5 @@
 package com.badminton.store.form.user;
 
-import com.badminton.store.enums.Gender;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -34,7 +33,7 @@ public class CreateUserForm {
 
     @NotNull(message = "Gender is required")
     @ApiModelProperty(name = "gender", required = true)
-    private Gender gender;
+    private Integer gender;
 
     @ApiModelProperty(name = "avatarPath")
     private String avatarPath;
