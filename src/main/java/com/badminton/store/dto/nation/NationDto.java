@@ -12,6 +12,6 @@ public class NationDto {
     private Integer kind;
     @ApiModelProperty(name = "name")
     private String name;
-    @ApiModelProperty(name = "parent")
-    private NationDto parent;
+    @ApiModelProperty(name = "parentId")
+    private Long parentId;
 }

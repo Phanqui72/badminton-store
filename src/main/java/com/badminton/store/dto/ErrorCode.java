@@ -44,4 +44,17 @@ public class ErrorCode {
     public static final String USER_ERROR_NOT_FOUND = "ERROR-USER-0002";
     public static final String USER_ERROR_EMAIL_EXISTED = "ERROR-USER-0003";
     public static final String USER_ERROR_PHONE_EXISTED = "ERROR-USER-0004";
+
+    public static final String NATION_ADDRESS_INVALID = "ERROR-USER-0004";
+    public static final String NATION_ERROR_NOT_FOUND = "ERROR-USER-0004";
+    public static final String NATION_ERROR_INVALID = "ERROR-USER-0004";
+    public static final String NATION_ERROR_EXIST = "ERROR-USER-0004";
+
+    public static final String NATION_ERROR_CANNOT_DELETE = "ERROR-USER-0004";
+
+    public static final String ADDRESS_ERROR_NOT_FOUND = "ERROR-USER-0004";
+
+
+
+
 }
