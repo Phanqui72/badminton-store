@@ -1,5 +1,8 @@
 package com.badminton.store.form.seller;
 
+import com.badminton.store.validation.impl.password.PasswordStrong;
+import com.badminton.store.validation.impl.phone.PhoneVN;
+import com.badminton.store.validation.impl.username.UsernameValid;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,12 +19,12 @@ public class CreateSellerForm {
 
     // Account field
     @NotEmpty(message = "username cannot be empty")
-    @Size(min = 4, max = 50, message = "username must be between 4 and 50 characters")
+    @UsernameValid
     @ApiModelProperty(value = "Tên đăng nhập", required = true, example = "seller01")
     private String username;
 
     @NotEmpty(message = "password cannot be empty")
-    @Size(min = 6, max = 100, message = "password must be at least 6 characters")
+    @PasswordStrong
     @ApiModelProperty(value = "Mật khẩu", required = true, example = "123456")
     private String password;
 
@@ -29,7 +32,7 @@ public class CreateSellerForm {
     @ApiModelProperty(value = "Email tài khoản", example = "seller@gmail.com")
     private String email;
 
-    @Pattern(regexp = "^[0-9]{9,11}$", message = "Invalid phone number")
+    @PhoneVN
     @ApiModelProperty(value = "Số điện thoại", example = "0987654321")
     private String phone;
 

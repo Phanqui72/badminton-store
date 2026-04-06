@@ -10,18 +10,24 @@ import javax.persistence.*;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-@PrimaryKeyJoinColumn(name = "account_id")
 @Table(name = TablePrefix.PREFIX_TABLE + "seller")
-public class Seller extends Account{
+public class Seller extends Auditable<String>{
+    @Id
+    private Long id;
+
+    @OneToOne
+    @MapsId // Ánh xạ ID của Account sang ID của Seller
+    @JoinColumn(name = "id") // Tên cột khóa ngoại trong bảng seller cũng là id
+    private Account account;
+
     @Column(name = "shop_name")
     private String shopName;
+
     @Column(name = "shop_description", columnDefinition = "TEXT")
     private String shopDescription;
-//    @Column(name = "pickup_address")
-//    private String pickupAddress;
-//    @Column(name = "bank_details", columnDefinition = "TEXT")
-//    private String bankDetails;
+
     @Column(name = "is_verified", nullable = false)
     private Boolean isVerified = false;
+
     private String gstIn;
 }
