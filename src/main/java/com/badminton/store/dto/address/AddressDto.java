@@ -14,11 +14,11 @@ public class AddressDto {
     @ApiModelProperty(name = "zipCode")
     private String zipCode;
     @ApiModelProperty(name = "province")
-    private NationDto province;
+    private Long provinceId;
     @ApiModelProperty(name = "district")
-    private NationDto district;
+    private Long districtId;
     @ApiModelProperty(name = "commune")
-    private NationDto commune;
+    private Long communeId;
     @ApiModelProperty(name = "isDefault")
     private Boolean isDefault;
     @ApiModelProperty(name = "user_id")

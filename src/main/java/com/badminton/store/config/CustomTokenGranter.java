@@ -35,12 +35,18 @@ public class CustomTokenGranter extends AbstractTokenGranter {
         String username = tokenRequest.getRequestParameters().get("username");
         String password = tokenRequest.getRequestParameters().get("password");
         String tenant = tokenRequest.getRequestParameters().get("tenant");
+        String email = tokenRequest.getRequestParameters().get("email");
         try {
             if (SecurityConstant.GRANT_TYPE_CUSTOM.equalsIgnoreCase(tokenRequest.getGrantType())) {
                 return userService.getAccessTokenForCustom(client, tokenRequest, username, password, tenant, tokenRequest.getGrantType(), this.getTokenServices());
-            } else if (!Objects.equals(tokenRequest.getGrantType(), SecurityConstant.GRANT_TYPE_PASSWORD)) {
+            }
+            else if (SecurityConstant.GRANT_TYPE_EMAIL.equalsIgnoreCase(tokenRequest.getGrantType())) {
+                return super.getAccessToken(client, tokenRequest);
+            }
+            else if (!Objects.equals(tokenRequest.getGrantType(), SecurityConstant.GRANT_TYPE_PASSWORD)) {
                 throw new InvalidTokenException("Invalid grant type: " + tokenRequest.getGrantType());
             }
+
             return null;
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();

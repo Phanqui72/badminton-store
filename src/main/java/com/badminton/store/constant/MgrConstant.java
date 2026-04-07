@@ -28,15 +28,17 @@ public class MgrConstant {
     public static final int ORDER_STATUS_COMPLETED = 3; // Hoàn thành
     public static final int ORDER_STATUS_CANCELLED = -1; // Đã hủy
 
-    //ERROR ORDER AND COUPON
-    public static final String COUPON_ERROR_NOT_FOUND = "ERROR-COUPON-0001";
-    public static final String COUPON_ERROR_EXPIRED = "ERROR-COUPON-0002";
-    public static final String COUPON_ERROR_OUT_OF_STOCK = "ERROR-COUPON-0003";
-    public static final String ORDER_ERROR_NOT_FOUND = "ERROR-ORDER-0001";
-    public static final String ORDER_ERROR_INVALID_STATUS = "ERROR-ORDER-0002";
+    // Product Status
+    public static final int PRODUCT_STATUS_CANCELLED = 0;   // Chờ xác nhận
+    public static final int PRODUCT_STATUS_ACTIVE = 1; // Đã xác nhận
+
     // Coupon Type
     public static final int COUPON_TYPE_FIXED = 1;      // Giảm tiền mặt
     public static final int COUPON_TYPE_PERCENTAGE = 2; // Giảm %
+
+    // Order Constant
+    public static final double TOTAL_ORDER_PRICE_DEFAULT = 0.0;
+    public static final int TOTAL_ITEM_DEFAULT = 0;
 
     private MgrConstant() {
         throw new IllegalStateException("Utility class");

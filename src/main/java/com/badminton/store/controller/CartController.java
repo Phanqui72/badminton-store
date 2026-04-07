@@ -9,6 +9,7 @@ import com.badminton.store.mapper.CartMapper;
 import com.badminton.store.model.*;
 import com.badminton.store.repository.*;
 import com.badminton.store.exception.*;
+import com.badminton.store.service.CartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Iterator;
-import java.util.Optional;
+
+import static com.badminton.store.constant.MgrConstant.PRODUCT_STATUS_CANCELLED;
+import static com.badminton.store.constant.MgrConstant.TOTAL_ORDER_PRICE_DEFAULT;
 
 @RestController
 @RequestMapping("/v1/cart")
@@ -30,40 +33,33 @@ public class CartController extends ABasicController {
     @Autowired private ProductRepository productRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private CartMapper cartMapper;
+    @Autowired private CartService cartService;
 
     @ApiOperation(value = "Thêm/Cộng dồn sản phẩm vào giỏ hàng")
     @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ApiMessageDto<Void> addToCart(@Valid @RequestBody AddToCartForm form) {
         Long userId = getCurrentUser();
-
-        // 1. Lấy hoặc tạo giỏ hàng
-        Cart cart = getOrCreateCart(userId);
-
-        // 2. Kiểm tra sản phẩm và tồn kho
+        Cart cart = cartService.getOrCreateCart(userId);
+        // Kiểm tra sản phẩm và tồn kho
         Product product = productRepository.findById(form.getProductId())
                 .orElseThrow(() -> new NotFoundException("Sản phẩm không tồn tại", ErrorCode.PRODUCT_ERROR_NOT_FOUND));
-
-        if (product.getStatus() != 1) { // Giả sử 1 là ACTIVE
+        if (product.getStatus() == PRODUCT_STATUS_CANCELLED ) {
             throw new BadRequestException("Sản phẩm hiện không còn kinh doanh", ErrorCode.PRODUCT_ERROR_NOT_FOUND);
         }
-
-        // 3. Tìm xem sản phẩm đã có trong giỏ chưa
+        // Tìm xem sản phẩm đã có trong giỏ chưa
         CartItem existingItem = cart.getCartItems().stream()
                 .filter(i -> i.getProduct().getId().equals(product.getId()))
                 .findFirst()
                 .orElse(null);
-
         int newQuantity = (existingItem != null) ? existingItem.getQuantity() + form.getQuantity() : form.getQuantity();
-
         // Kiểm tra tồn kho thực tế
         if (product.getQuantity() < newQuantity) {
             throw new BadRequestException("Số lượng trong kho không đủ (Còn: " + product.getQuantity() + ")", ErrorCode.PRODUCT_ERROR_OUT_OF_STOCK);
         }
-
         if (existingItem != null) {
             existingItem.setQuantity(newQuantity);
-            existingItem.setPrice(product.getPrice()); // Cập nhật giá mới nhất
+            existingItem.setPrice(product.getPrice());
         } else {
             CartItem newItem = new CartItem();
             newItem.setCart(cart);
@@ -72,10 +68,7 @@ public class CartController extends ABasicController {
             newItem.setPrice(product.getPrice());
             cart.getCartItems().add(newItem);
         }
-
-        // 4. Đồng bộ tổng tiền và lưu
-        syncAndSaveCart(cart);
-
+        cartService.syncAndSaveCart(cart);
         return makeSuccessResponse("Đã thêm vào giỏ hàng thành công.");
     }
 
@@ -99,18 +92,18 @@ public class CartController extends ABasicController {
                 throw new BadRequestException("Kho không đủ hàng", ErrorCode.PRODUCT_ERROR_OUT_OF_STOCK);
             }
             item.setQuantity(form.getQuantity());
-            item.setPrice(item.getProduct().getPrice()); // Cập nhật giá mới nhất
+            item.setPrice(item.getProduct().getPrice());
         }
 
-        syncAndSaveCart(cart);
+        cartService.syncAndSaveCart(cart);
         return makeSuccessResponse("Cập nhật số lượng thành công.");
     }
 
     @ApiOperation(value = "Lấy giỏ hàng và đồng bộ giá mới nhất")
     @GetMapping(value = "/my-cart", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Transactional // Dùng transactional vì có thể sẽ update lại giá trong DB khi sync
+    @Transactional
     public ApiMessageDto<CartDto> getMyCart() {
-        Cart cart = getOrCreateCart(getCurrentUser());
+        Cart cart = cartService.getOrCreateCart(getCurrentUser());
 
         // Logic thực tế: Trước khi trả về, phải kiểm tra xem sản phẩm có bị ẩn/đổi giá không
         boolean isChanged = false;
@@ -119,7 +112,7 @@ public class CartController extends ABasicController {
             CartItem item = iterator.next();
             Product p = item.getProduct();
 
-            if (p == null || p.getStatus() != 1) { // Sản phẩm bị xóa hoặc ngừng bán
+            if (p == null || p.getStatus()  == PRODUCT_STATUS_CANCELLED) {
                 iterator.remove();
                 isChanged = true;
             } else if (!item.getPrice().equals(p.getPrice())) { // Giá sản phẩm thay đổi
@@ -129,7 +122,7 @@ public class CartController extends ABasicController {
         }
 
         if (isChanged) {
-            syncAndSaveCart(cart);
+            cartService.syncAndSaveCart(cart);
         }
 
         return makeSuccessResponse(cartMapper.fromEntityToDto(cart), "Lấy giỏ hàng thành công.");
@@ -145,7 +138,7 @@ public class CartController extends ABasicController {
         boolean removed = cart.getCartItems().removeIf(i -> i.getProduct().getId().equals(productId));
 
         if (removed) {
-            syncAndSaveCart(cart);
+            cartService.syncAndSaveCart(cart);
         }
 
         return makeSuccessResponse("Đã xóa sản phẩm khỏi giỏ.");
@@ -158,35 +151,10 @@ public class CartController extends ABasicController {
         Cart cart = cartRepository.findById(getCurrentUser()).orElse(null);
         if (cart != null) {
             cart.getCartItems().clear();
-            cart.setTotalPrice(0.0);
+            cart.setTotalPrice(TOTAL_ORDER_PRICE_DEFAULT);
             cart.setTotalItem(0);
             cartRepository.save(cart);
         }
         return makeSuccessResponse("Giỏ hàng đã được làm trống.");
-    }
-
-    // --- CÁC HÀM TRỢ GIÚP (PRIVATE METHODS) ---
-
-    private Cart getOrCreateCart(Long userId) {
-        return cartRepository.findById(userId).orElseGet(() -> {
-            Cart newCart = new Cart();
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new NotFoundException("User not found", ErrorCode.ACCOUNT_ERROR_NOT_FOUND));
-            newCart.setCustomer(user);
-            return cartRepository.save(newCart);
-        });
-    }
-
-    private void syncAndSaveCart(Cart cart) {
-        double total = cart.getCartItems().stream()
-                .mapToDouble(i -> i.getPrice() * i.getQuantity())
-                .sum();
-        int count = cart.getCartItems().stream()
-                .mapToInt(CartItem::getQuantity)
-                .sum();
-
-        cart.setTotalPrice(total);
-        cart.setTotalItem(count);
-        cartRepository.save(cart);
     }
 }

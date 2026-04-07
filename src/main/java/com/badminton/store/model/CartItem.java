@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter @Setter
 public class CartItem extends Auditable<String> {
     @Id
-    @GeneratedValue(generator = "idGenerator") // Sử dụng IdGenerator chung của dự án
+    @GeneratedValue(generator = "idGenerator")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,5 +24,5 @@ public class CartItem extends Auditable<String> {
 
     private Integer quantity;
 
-    private Double price; // Giá tại thời điểm thêm vào giỏ
+    private Double price;
 }

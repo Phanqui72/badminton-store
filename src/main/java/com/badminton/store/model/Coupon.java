@@ -15,7 +15,7 @@ public class Coupon extends Auditable<String> {
     @Column(unique = true, nullable = false)
     private String code;
     private Double discountValue;
-    private Integer discountType; // Hằng số COUPON_TYPE_...
+    private Integer discountType;
     private Integer limitUsage;
     private Integer used = 0;
     private LocalDateTime expiredDate;

@@ -17,7 +17,7 @@ import java.util.List;
 public class OrderCriteria {
     private Long userId;
     private Integer status;
-    private String fromDate; // Chuỗi dd/MM/yyyy
+    private String fromDate;
     private String toDate;
 
     public Specification<Order> getSpecification() {
@@ -26,7 +26,6 @@ public class OrderCriteria {
             if (userId != null) predicates.add(cb.equal(root.get("customer").get("id"), userId));
             if (status != null) predicates.add(cb.equal(root.get("status"), status));
 
-            // Xử lý ngày tháng bằng DateUtils
             if (StringUtils.isNotBlank(fromDate)) {
                 Date start = DateUtils.converDate(fromDate, MgrConstant.DATE_FORMAT);
                 if (start != null) predicates.add(cb.greaterThanOrEqualTo(root.get("createdDate"), DateUtils.startOfDay(start)));
