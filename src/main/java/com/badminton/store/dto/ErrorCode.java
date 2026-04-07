@@ -22,6 +22,7 @@ public class ErrorCode {
     public static final String CATEGORY_ERROR_NOT_FOUND = "ERROR-CATEGORY-0001";
     public static final String PRODUCT_ERROR_NOT_FOUND = "ERROR-PRODUCT-0001";
 
+    public static final String PRODUCT_ERROR_OUT_OF_STOCK = "ERROR_PRODUCT_0001";
     /**
      * Starting error code DATABASE_ERROR
      */
@@ -39,4 +40,9 @@ public class ErrorCode {
      */
     public static final String GROUP_ERROR_NOT_FOUND = "ERROR-GROUP-0000";
     public static final String GROUP_ERROR_NAME_EXISTED = "ERROR-GROUP-0001";
+
+    public static final String USER_ERROR_USERNAME_EXISTED = "ERROR-USER-0001";
+    public static final String USER_ERROR_NOT_FOUND = "ERROR-USER-0002";
+    public static final String USER_ERROR_EMAIL_EXISTED = "ERROR-USER-0003";
+    public static final String USER_ERROR_PHONE_EXISTED = "ERROR-USER-0004";
 }
