@@ -10,7 +10,7 @@ public class CartItemDto {
     private Long id;
     private Long productId;
     private String productTitle;
-    private String productImage; // Lấy ảnh đầu tiên
+    private String productImage;
     private Integer quantity;
     private Double price;
     @ApiModelProperty(notes = "Thành tiền của item này")

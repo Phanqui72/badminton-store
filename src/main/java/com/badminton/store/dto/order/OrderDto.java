@@ -15,5 +15,5 @@ public class OrderDto {
     private int status;
     private String couponCode;
     private List<OrderDetailDto> items;
-    private String createdDate; // Sẽ format qua DateUtils
+    private String createdDate;
 }

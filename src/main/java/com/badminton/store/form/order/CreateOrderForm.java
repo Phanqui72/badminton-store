@@ -12,7 +12,7 @@ public class CreateOrderForm {
     @NotEmpty(message = "Receiver name is required")
     private String receiverName;
     @NotEmpty(message = "Phone is required")
-    @PhoneVN // Custom annotation bạn đã tạo
+    @PhoneVN
     private String receiverPhone;
     private String couponCode;
 }

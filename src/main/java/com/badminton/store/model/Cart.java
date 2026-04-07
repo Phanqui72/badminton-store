@@ -13,7 +13,7 @@ import java.util.List;
 @Getter @Setter
 public class Cart extends Auditable<String> {
     @Id
-    private Long id; // Shared Primary Key với User
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId

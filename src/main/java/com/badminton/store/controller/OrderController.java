@@ -14,9 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable; // SỬA DÒNG NÀY
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static com.badminton.store.constant.MgrConstant.*; // Gọi tất cả hằng số ở đây
+import static com.badminton.store.constant.MgrConstant.*;
+import static com.badminton.store.dto.ErrorCode.*;
 
 @RestController
 @RequestMapping("/v1/order")
@@ -58,7 +57,6 @@ public class OrderController extends ABasicController {
             coupon = couponRepository.findFirstByCodeAndStatus(form.getCouponCode(), STATUS_ACTIVE)
                     .orElseThrow(() -> new NotFoundException("Coupon invalid", COUPON_ERROR_NOT_FOUND));
 
-            // LocalDateTime dùng isBefore chứ không dùng before
             if (coupon.getExpiredDate().isBefore(LocalDateTime.now())) {
                 throw new BadRequestException("Coupon expired", COUPON_ERROR_EXPIRED);
             }
@@ -109,8 +107,8 @@ public class OrderController extends ABasicController {
 
         // Xóa giỏ hàng
         cart.getCartItems().clear();
-        cart.setTotalPrice(0.0);
-        cart.setTotalItem(0);
+        cart.setTotalPrice(TOTAL_ORDER_PRICE_DEFAULT);
+        cart.setTotalItem(TOTAL_ITEM_DEFAULT);
         cartRepository.save(cart);
 
         return makeSuccessResponse("Order created successful.");
@@ -119,7 +117,6 @@ public class OrderController extends ABasicController {
     @ApiOperation(value = "Lấy danh sách đơn hàng")
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<ResponseListDto<List<OrderDto>>> list(Pageable pageable) {
-        // Giả sử lấy tất cả cho Admin, bạn có thể thêm Criteria sau
         Page<Order> page = orderRepository.findAll(pageable);
         return makeSuccessResponse(makeResponseListDto(page, list -> orderMapper.fromEntityListToDtoList(list)), "List success");
     }

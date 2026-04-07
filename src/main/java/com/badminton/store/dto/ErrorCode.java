@@ -20,8 +20,8 @@ public class ErrorCode {
 
     public static final String ACCOUNT_ERROR_PHONE_EXISTED = "ERROR-PHONE-0001";
     public static final String CATEGORY_ERROR_NOT_FOUND = "ERROR-CATEGORY-0001";
-    public static final String PRODUCT_ERROR_NOT_FOUND = "ERROR-PRODUCT-0001";
 
+    public static final String PRODUCT_ERROR_NOT_FOUND = "ERROR-PRODUCT-0001";
     public static final String PRODUCT_ERROR_OUT_OF_STOCK = "ERROR_PRODUCT_0001";
     /**
      * Starting error code DATABASE_ERROR
@@ -55,7 +55,12 @@ public class ErrorCode {
 
     public static final String ADDRESS_ERROR_NOT_FOUND = "ERROR-USER-0004";
 
-
+    //ERROR ORDER AND COUPON
+    public static final String COUPON_ERROR_NOT_FOUND = "ERROR-COUPON-0001";
+    public static final String COUPON_ERROR_EXPIRED = "ERROR-COUPON-0002";
+    public static final String COUPON_ERROR_OUT_OF_STOCK = "ERROR-COUPON-0003";
+    public static final String ORDER_ERROR_NOT_FOUND = "ERROR-ORDER-0001";
+    public static final String ORDER_ERROR_INVALID_STATUS = "ERROR-ORDER-0002";
 
 
 }
