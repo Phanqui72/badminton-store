@@ -19,12 +19,9 @@ public class Nation {
     @GenericGenerator(name = "idGenerator", strategy = "com.badminton.store.service.id.IdGenerator")
     @GeneratedValue(generator = "idGenerator")
     private Long id;
-
     private Integer kind; //kind 1 is province, kind 2 is district, kind 3 is Commune
     private String name;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parentId")
     private Nation parent;
-
 }

@@ -1,5 +1,6 @@
 package com.badminton.store.controller;
 
+import com.badminton.store.constant.MgrConstant;
 import com.badminton.store.dto.ApiMessageDto;
 import com.badminton.store.dto.ResponseListDto;
 import com.badminton.store.jwt.MgrJwt;
@@ -13,6 +14,8 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 
 import java.util.List;
 import java.util.function.Function;
+
+import static com.badminton.store.constant.MgrConstant.USER_KIND_ADMIN;
 
 public class ABasicController {
     @Autowired
@@ -63,6 +66,18 @@ public class ABasicController {
             return mgrJwt.getIsSuperAdmin();
         }
         return false;
+    }
+    public Integer getKind(){
+        MgrJwt mgrJwt = userService.getAddInfoFromToken();
+        if(mgrJwt !=null){
+            return mgrJwt.getUserKind();
+        }
+        return -1;
+    }
+
+    public boolean isAdmin() {
+        MgrJwt mgrJwt = userService.getAddInfoFromToken();
+        return mgrJwt != null && USER_KIND_ADMIN.equals(mgrJwt.getUserKind());
     }
 
     public String getCurrentToken() {

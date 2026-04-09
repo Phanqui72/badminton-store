@@ -1,11 +1,14 @@
 package com.badminton.store.form.user;
 
+import com.badminton.store.dto.address.AddressDto;
+import com.badminton.store.model.Address;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 public class CreateUserForm {
@@ -41,4 +44,8 @@ public class CreateUserForm {
     @NotNull(message = "Group ID is required")
     @ApiModelProperty(name = "groupId", required = true)
     private Long groupId;
+
+    @NotNull(message = "Address is required")
+    @ApiModelProperty(name = "Address", required = true)
+    private List<AddressDto> addressDtoList;
 }

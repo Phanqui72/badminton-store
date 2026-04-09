@@ -36,17 +36,20 @@ public interface UserMapper {
 
     @Mapping(source = "username", target = "username")
     @Mapping(source = "password", target = "password")
-    @Mapping(source = "groupId", target = "group.id")
-    @Mapping(source = "phone", target = "phone")
-    @Mapping(source = "email", target = "email")
     @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "phone", target = "phone")
     @Mapping(source = "gender", target = "gender")
+    @Mapping(source = "avatarPath", target = "avatarPath")
+    @Mapping(source = "groupId", target = "group.id")
+    @Mapping(source = "addressDtoList", target = "address",qualifiedByName = "fromEntityToAddressDtoList")
     User fromCreateUserFormToEntity(@Valid CreateUserForm createUserForm);
 
-    @Mapping(source = "id", target = "id")
+
     @Mapping(source = "fullName", target = "fullName")
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "gender", target = "gender")
     @Mapping(source = "avatarPath", target = "avatarPath")
+    @Mapping(source = "addressDtoList", target = "address",qualifiedByName = "fromEntityToAddressDtoList")
     User fromUpdateUserFormToEntity(@Valid UpdateUserForm form);
 }

@@ -106,6 +106,64 @@ public class UserServiceImpl implements UserDetailsService {
         return tokenServices.createAccessToken(auth);
     }
 
+    public OAuth2AccessToken getAccessTokenForEmail(ClientDetails client,
+                                                     TokenRequest tokenRequest,
+                                                     String email,
+                                                     String password,
+                                                     String tenant,
+                                                     String grantType,
+                                                     AuthorizationServerTokenServices tokenServices) throws GeneralSecurityException, IOException {
+        Map<String, String> requestParameters = new HashMap<>();
+        requestParameters.put("grantType", grantType);
+        requestParameters.put("tenantId", tenant);
+        String clientId = client.getClientId();
+        boolean approved = true;
+        Set<String> responseTypes = new HashSet<>();
+        responseTypes.add("code");
+        Map<String, Serializable> extensionProperties = new HashMap<>();
+
+        Account account = accountRepository.findFirstByEmail(email).orElse(null);
+//        log.error("--- DEBUG CUỐI CÙNG ---");
+//        log.error("Email: {}", email);
+//        log.error("Password thô từ Postman: [{}]", password);
+//        log.error("Password hash lấy từ DB: [{}]", account.getPassword());
+//
+//        boolean match = passwordEncoder.matches(password, account.getPassword());
+//        log.info("Kết quả matches: {}", match);
+//
+//        if (!match) {
+//            log.error("Invalid password.");
+//            throw new UsernameNotFoundException("Invalid password.");
+//        }
+        if (account == null) {
+            log.error("Invalid email or password.");
+            throw new UsernameNotFoundException("Invalid email or password.");
+        }
+
+        if (!passwordEncoder.matches(password, account.getPassword())) {
+            log.error("Invalid password.");
+            throw new UsernameNotFoundException("Invalid password.");
+        }
+
+        boolean enabled = true;
+        if (account.getStatus() != MgrConstant.STATUS_ACTIVE) {
+            log.error("User had been locked");
+            enabled = false;
+        }
+
+        Set<GrantedAuthority> grantedAuthorities = getAccountPermission(account);
+
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(account.getUsername(), account.getPassword(), enabled, true, true, true, grantedAuthorities);
+
+        OAuth2Request oAuth2Request = new OAuth2Request(requestParameters, clientId,
+                userDetails.getAuthorities(), approved, client.getScope(),
+                client.getResourceIds(), null, responseTypes, extensionProperties);
+        org.springframework.security.core.userdetails.User userPrincipal = new org.springframework.security.core.userdetails.User(userDetails.getUsername(), userDetails.getPassword(), userDetails.isEnabled(), userDetails.isAccountNonExpired(), userDetails.isCredentialsNonExpired(), userDetails.isAccountNonLocked(), userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userPrincipal, null, userDetails.getAuthorities());
+        OAuth2Authentication auth = new OAuth2Authentication(oAuth2Request, authenticationToken);
+        return tokenServices.createAccessToken(auth);
+    }
+
     private Set<GrantedAuthority> getAccountPermission(Account user) {
         List<String> roles = new ArrayList<>();
         user.getGroup().getPermissions().stream().filter(f -> f.getPermissionCode() != null).forEach(pName -> roles.add(pName.getPermissionCode()));

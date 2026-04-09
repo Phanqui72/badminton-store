@@ -19,23 +19,18 @@ public class Address {
     @GenericGenerator(name = "idGenerator", strategy = "com.badminton.store.service.id.IdGenerator")
     @GeneratedValue(generator = "idGenerator")
     private Long id;
-
     private String street;
     private String zipCode;
     private Boolean isDefault;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "province")
     private Nation province;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "district")
     private Nation district;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commune")
     private Nation commune;

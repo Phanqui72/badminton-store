@@ -16,9 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends Account {
-
     private Integer gender;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Address> address;
-
 }

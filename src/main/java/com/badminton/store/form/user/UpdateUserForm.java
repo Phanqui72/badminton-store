@@ -1,10 +1,12 @@
 package com.badminton.store.form.user;
 
 
+import com.badminton.store.dto.address.AddressDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 public class UpdateUserForm {
@@ -23,4 +25,7 @@ public class UpdateUserForm {
 
     @ApiModelProperty(name = "avatarPath")
     private String avatarPath;
+
+    @ApiModelProperty(name = "Address")
+    private List<AddressDto> addressDtoList;
 }

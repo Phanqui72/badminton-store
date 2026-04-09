@@ -72,20 +72,20 @@ public class UserController extends ABasicController{
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('U_U')")
     public ApiMessageDto<String> update(@Valid @RequestBody UpdateUserForm updateUserForm, BindingResult bindingResult) {
+        if(!isSuperAdmin() && !updateUserForm.getId().equals(getCurrentUser())){
+            throw new BadRequestException("You don't have permission to update user", ErrorCode.USER_ERROR_PERMISSION);
+        }
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         User user = userRepository.findById(updateUserForm.getId()).orElse(null);
         if (user == null) {
             throw new NotFoundException("User not found!", ErrorCode.USER_ERROR_NOT_FOUND);
         }
-
-        // Cập nhật các trường thông tin
         user.setFullName(updateUserForm.getFullName());
         user.setPhone(updateUserForm.getPhone());
         user.setGender(updateUserForm.getGender());
         if (StringUtils.isNoneBlank(updateUserForm.getAvatarPath())) {
             user.setAvatarPath(updateUserForm.getAvatarPath());
         }
-
         userRepository.save(user);
         apiMessageDto.setMessage("Update user success.");
         return apiMessageDto;
@@ -96,6 +96,18 @@ public class UserController extends ABasicController{
     public ApiMessageDto<UserDto> get(@PathVariable("id") Long id) {
         ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
         User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new NotFoundException("User not found!", ErrorCode.USER_ERROR_NOT_FOUND);
+        }
+        apiMessageDto.setData(userMapper.fromUserEntityToDto(user));
+        apiMessageDto.setMessage("Get user success.");
+        return apiMessageDto;
+    }
+
+    @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<UserDto> profile() {
+        ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
+        User user = userRepository.findById(getCurrentUser()).orElse(null);
         if (user == null) {
             throw new NotFoundException("User not found!", ErrorCode.USER_ERROR_NOT_FOUND);
         }

@@ -45,10 +45,12 @@ public interface AddressMapper {
     @Mapping(source = "commune.id", target = "communeId")
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "id", target = "id")
+    @Named("fromEntityToAddressDto")
     AddressDto fromEntityToDto(Address address);
 
 
-    // MapStruct sẽ tự động gọi hàm fromEntityToDto cho từng phần tử trong list
+    @IterableMapping(elementTargetType = AddressDto.class, qualifiedByName = "fromEntityToDto")
+    @Named("fromEntityToAddressDtoList")
     List<AddressDto> fromEntityListToDtoList(List<Address> address);
 
 }

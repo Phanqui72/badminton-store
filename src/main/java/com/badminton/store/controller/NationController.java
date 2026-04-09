@@ -37,38 +37,18 @@ public class NationController extends ABasicController {
     private NationMapper nationMapper;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('N-C', 'ADMIN')") // Nên cho phép cả ADMIN
+    @PreAuthorize("hasRole(N_C)")
     public ApiMessageDto<String> create(@Valid @RequestBody CreateNationForm createNationForm, BindingResult bindingResult) {
-
-        // 1. Kiểm tra lỗi validate (Nên đẩy ra GlobalExceptionHandler nếu có thể)
-        if (bindingResult.hasErrors()) {
-            String errorMessage = bindingResult.getFieldErrors()
-                    .stream()
-                    .map(error -> error.getField() + " " + error.getDefaultMessage())
-                    .collect(Collectors.joining(", "));
-            throw new BadRequestException(errorMessage, ErrorCode.NATION_ERROR_INVALID);
-        }
-
-        // 2. Map từ Form sang Entity
         Nation nation = nationMapper.fromCreateNationFormToEntity(createNationForm);
-
-        // 3. Kiểm tra trùng tên (Nên có để tránh DataIntegrityViolationException)
         if (nationRepository.findByName(createNationForm.getName()).isPresent()) {
             throw new BadRequestException("Nation name already exists", ErrorCode.NATION_ERROR_EXIST);
         }
-
-        // 4. Xử lý Parent-Child
         if (createNationForm.getParentId() != null) {
             Nation parent = nationRepository.findById(createNationForm.getParentId())
                     .orElseThrow(() -> new NotFoundException("Parent nation not found", ErrorCode.NATION_ERROR_NOT_FOUND));
-
-            // Ràng buộc logic: Tỉnh không thể có parent là Xã (ví dụ vậy)
             nation.setParent(parent);
         }
-
-        // 5. Lưu vào DB
         nationRepository.save(nation);
-
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setMessage("Create Nation success");
         return apiMessageDto;
@@ -78,14 +58,8 @@ public class NationController extends ABasicController {
     @PreAuthorize("hasAnyRole('N-U', 'ADMIN')")
     public ApiMessageDto<String> update(@Valid @RequestBody UpdateNationForm updateForm, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException("Invalid data", ErrorCode.NATION_ERROR_INVALID);
-        }
-
         Nation nation = nationRepository.findById(updateForm.getId())
                 .orElseThrow(() -> new NotFoundException("Nation not found", ErrorCode.NATION_ERROR_NOT_FOUND));
-
-        // Update các field
         nationMapper.updateNationFromForm(updateForm, nation);
 
         if (updateForm.getParentId() != null) {
@@ -105,15 +79,10 @@ public class NationController extends ABasicController {
     public ApiMessageDto<NationDto> get(@PathVariable("id") Long id) {
         Nation nation = nationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Nation not found", ErrorCode.NATION_ERROR_NOT_FOUND));
-        // Bước 1: Chuyển đổi Entity từ Database sang DTO để hiển thị (tránh lộ thông tin nhạy cảm)
         NationDto nationDto = nationMapper.fromEntityToDto(nation);
-
-        // Bước 2: Khởi tạo ApiMessageDto và truyền dữ liệu đã convert vào
         ApiMessageDto<NationDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(nationDto);
         apiMessageDto.setMessage("Get nation success");
-
-        // Bước 3: Trả về đối tượng bọc cuối cùng
         return apiMessageDto;
     }
 
@@ -123,7 +92,6 @@ public class NationController extends ABasicController {
         Nation nation = nationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Nation not found", ErrorCode.NATION_ERROR_NOT_FOUND));
 
-        // Kiểm tra xem có Nation con hoặc Address nào đang tham chiếu tới không trước khi xóa
         try {
             nationRepository.delete(nation);
         } catch (Exception e) {
@@ -136,20 +104,12 @@ public class NationController extends ABasicController {
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<ResponseListDto<List<NationDto>>> list(NationCriteria criteria, Pageable pageable) {
-
-        // Bước 1: Thực hiện truy vấn có phân trang và lọc theo tiêu chí (Criteria)
         Page<Nation> page = nationRepository.findAll(criteria.getSpecification(), pageable);
-
-        // Bước 2: Chuyển đổi danh sách Entity sang danh sách DTO
         List<NationDto> listDto = nationMapper.fromEntityListToDtoList(page.getContent());
-
-        // Bước 3: Đóng gói vào ResponseListDto (chứa data + thông tin phân trang)
         ResponseListDto<List<NationDto>> responseListDto = new ResponseListDto<>();
         responseListDto.setContent(listDto);
         responseListDto.setTotalElements(page.getTotalElements());
         responseListDto.setTotalPages(page.getTotalPages());
-
-        // Bước 4: Trả về kết quả cuối cùng qua ApiMessageDto
         ApiMessageDto<ResponseListDto<List<NationDto>>> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(responseListDto);
         apiMessageDto.setMessage("Get nation list success");

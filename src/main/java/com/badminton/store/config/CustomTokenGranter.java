@@ -20,7 +20,12 @@ public class CustomTokenGranter extends AbstractTokenGranter {
         super(tokenServices, clientDetailsService, requestFactory, grantType);
     }
 
-    public CustomTokenGranter(AuthenticationManager authenticationManager, AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, String grantType, UserServiceImpl userService) {
+    public CustomTokenGranter(AuthenticationManager authenticationManager,
+                              AuthorizationServerTokenServices tokenServices,
+                              ClientDetailsService clientDetailsService,
+                              OAuth2RequestFactory requestFactory,
+                              String grantType,
+                              UserServiceImpl userService) {
         super(tokenServices, clientDetailsService, requestFactory, grantType);
         this.userService = userService;
         this.authenticationManager = authenticationManager;
@@ -37,11 +42,14 @@ public class CustomTokenGranter extends AbstractTokenGranter {
         String tenant = tokenRequest.getRequestParameters().get("tenant");
         String email = tokenRequest.getRequestParameters().get("email");
         try {
-            if (SecurityConstant.GRANT_TYPE_CUSTOM.equalsIgnoreCase(tokenRequest.getGrantType())) {
-                return userService.getAccessTokenForCustom(client, tokenRequest, username, password, tenant, tokenRequest.getGrantType(), this.getTokenServices());
+            if (SecurityConstant.GRANT_TYPE_USER.equalsIgnoreCase(tokenRequest.getGrantType())) {
+                return userService.getAccessTokenForEmail(client,
+                        tokenRequest, email, password,
+                        tenant, tokenRequest.getGrantType(),
+                        this.getTokenServices());
             }
-            else if (SecurityConstant.GRANT_TYPE_EMAIL.equalsIgnoreCase(tokenRequest.getGrantType())) {
-                return super.getAccessToken(client, tokenRequest);
+            else if (SecurityConstant.GRANT_TYPE_CUSTOM.equalsIgnoreCase(tokenRequest.getGrantType())) {
+                return userService.getAccessTokenForCustom(client, tokenRequest, username, password, tenant, tokenRequest.getGrantType(), this.getTokenServices());
             }
             else if (!Objects.equals(tokenRequest.getGrantType(), SecurityConstant.GRANT_TYPE_PASSWORD)) {
                 throw new InvalidTokenException("Invalid grant type: " + tokenRequest.getGrantType());
