@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.badminton.store.constant.MgrConstant.USER_KIND_USER;
+
 @RestController
 @RequestMapping("/v1/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -47,22 +49,20 @@ public class UserController extends ABasicController{
                 createUserForm.getPhone()
         );
         if (existingUser != null) {
-            if (StringUtils.equals(existingUser.getUsername(), createUserForm.getUsername())) {
+            if (StringUtils.equals(existingUser.getAccount().getUsername(), createUserForm.getUsername())) {
                 throw new BadRequestException("Username already exists!", ErrorCode.USER_ERROR_USERNAME_EXISTED);
             }
-            if (StringUtils.equals(existingUser.getEmail(), createUserForm.getEmail())) {
+            if (StringUtils.equals(existingUser.getAccount().getEmail(), createUserForm.getEmail())) {
                 throw new BadRequestException("Email already exists!", ErrorCode.USER_ERROR_EMAIL_EXISTED);
             }
-            if (StringUtils.equals(existingUser.getPhone(), createUserForm.getPhone())) {
+            if (StringUtils.equals(existingUser.getAccount().getPhone(), createUserForm.getPhone())) {
                 throw new BadRequestException("Phone already exists!", ErrorCode.USER_ERROR_PHONE_EXISTED);
             }
         }
-        //Check group
-        Group group = groupRepository.findById(createUserForm.getGroupId())
-                .orElseThrow(() -> new NotFoundException("Group not found!", ErrorCode.GROUP_ERROR_NOT_FOUND));
-
+        //Set default usser kind and user group
         User user = userMapper.fromCreateUserFormToEntity(createUserForm);
-        user.setGroup(group);
+        user.getAccount().setGroup(new Group("User", "Group of User",2,false,null));
+        user.getAccount().setKind(USER_KIND_USER);
         userRepository.save(user);
 
         apiMessageDto.setMessage("Create user success.");
@@ -80,11 +80,11 @@ public class UserController extends ABasicController{
         if (user == null) {
             throw new NotFoundException("User not found!", ErrorCode.USER_ERROR_NOT_FOUND);
         }
-        user.setFullName(updateUserForm.getFullName());
-        user.setPhone(updateUserForm.getPhone());
+        user.getAccount().setFullName(updateUserForm.getFullName());
+        user.getAccount().setPhone(updateUserForm.getPhone());
         user.setGender(updateUserForm.getGender());
         if (StringUtils.isNoneBlank(updateUserForm.getAvatarPath())) {
-            user.setAvatarPath(updateUserForm.getAvatarPath());
+            user.getAccount().setAvatarPath(updateUserForm.getAvatarPath());
         }
         userRepository.save(user);
         apiMessageDto.setMessage("Update user success.");

@@ -17,7 +17,7 @@ import java.util.Locale;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         uses = {NationMapper.class})
 public interface AddressMapper {
-    @Mapping(source = "userId", target = "user.id")
+    @Mapping(source = "userId", target = "user.account.id")
     @Mapping(source = "street", target = "street")
     @Mapping(source = "zipCode", target = "zipCode")
     @Mapping(source = "isDefault", target = "isDefault")
@@ -32,7 +32,7 @@ public interface AddressMapper {
     @Mapping(source = "provinceId", target = "province.id")
     @Mapping(source = "districtId", target = "district.id")
     @Mapping(source = "communeId", target = "commune.id")
-    @Mapping(source = "userId", target = "user.id")
+    @Mapping(source = "userId", target = "user.account.id")
     @Mapping(source = "id", target = "id")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAddressFromForm(UpdateAddressForm form, @MappingTarget Address entity);
@@ -43,7 +43,7 @@ public interface AddressMapper {
     @Mapping(source = "province.id", target = "provinceId")
     @Mapping(source = "district.id", target = "districtId")
     @Mapping(source = "commune.id", target = "communeId")
-    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "user.account.id", target = "userId")
     @Mapping(source = "id", target = "id")
     @Named("fromEntityToAddressDto")
     AddressDto fromEntityToDto(Address address);

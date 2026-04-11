@@ -58,7 +58,7 @@ public class AddressController extends ABasicController{
 
         //Set only one address at a time
         if (form.getIsDefault()) {
-            addressRepository.unsetDefaultByUserId(user.getId());
+            addressRepository.unsetDefaultByUserId(user.getAccount().getId());
         }
         Address address = addressMapper.fromCreateFormToEntity(form);
         address.setUser(user);
@@ -80,7 +80,7 @@ public class AddressController extends ABasicController{
                 .orElseThrow(() -> new NotFoundException("Address not found", ErrorCode.ADDRESS_ERROR_NOT_FOUND));
         //Unset default with old address
         if (form.getIsDefault() != null && form.getIsDefault()) {
-            addressRepository.unsetDefaultByUserId(address.getUser().getId());
+            addressRepository.unsetDefaultByUserId(address.getUser().getAccount().getId());
         }
 
         // 3. Map các field cơ bản (street, name, isDefault...)
@@ -136,7 +136,7 @@ public class AddressController extends ABasicController{
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Address not found", ErrorCode.ADDRESS_ERROR_NOT_FOUND));
         User userCurrent  = address.getUser();
-        if(getKind() !=1 && !currentUserID.equals(userCurrent.getId())){
+        if(getKind() !=1 && !currentUserID.equals(userCurrent.getAccount().getId())){
             throw new BadRequestException("You don't have permission to delete address", ErrorCode.ADDRESS_ERROR_PERMISSION);
         }
         addressRepository.delete(address);

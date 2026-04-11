@@ -9,7 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-    User findFirstByUsername(@NotEmpty(message = "Username is required") @Size(min = 4, max = 50, message = "Username must be between 4 and 50 characters") String username);
-    @Query("SELECT u FROM User u WHERE u.username = :username OR u.email = :email OR u.phone = :phone")
+    @Query("SELECT u FROM User u WHERE u.account.username = :username " +
+            "OR u.account.email = :email " +
+            "OR u.account.phone = :phone")
     User findExistingUser(String username, String email, String phone);
 }

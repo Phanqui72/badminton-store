@@ -16,40 +16,40 @@ import javax.validation.Valid;
         uses = {AddressMapper.class})
 public interface UserMapper {
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "phone", target = "phone")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "lastLogin", target = "lastLogin")
+    @Mapping(source = "account.id", target = "id")
+    @Mapping(source = "account.phone", target = "phone")
+    @Mapping(source = "account.email", target = "email")
+    @Mapping(source = "account.fullName", target = "fullName")
+    @Mapping(source = "account.lastLogin", target = "lastLogin")
     @Mapping(source = "gender", target = "gender")
     @Mapping(source = "address", target = "address",qualifiedByName = "fromEntityToAddressMapper")
     UserDto fromUserEntityToDto(User User);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "phone", target = "phone")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "lastLogin", target = "lastLogin")
+    @Mapping(source = "id", target = "account.id")
+    @Mapping(source = "phone", target = "account.phone")
+    @Mapping(source = "email", target = "account.email")
+    @Mapping(source = "fullName", target = "account.fullName")
+    @Mapping(source = "lastLogin", target = "account.lastLogin")
     @Mapping(source = "gender", target = "gender")
     @Mapping(source = "address", target = "address",qualifiedByName = "fromEntityToAddressMapper")
     User fromUserDtoToEntity(UserDto userDto);
 
-    @Mapping(source = "username", target = "username")
-    @Mapping(source = "password", target = "password")
-    @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "username", target = "account.username")
+    @Mapping(source = "password", target = "account.password")
+    @Mapping(source = "fullName", target = "account.fullName")
+    @Mapping(source = "email", target = "account.email")
+    @Mapping(source = "phone", target = "account.phone")
     @Mapping(source = "gender", target = "gender")
-    @Mapping(source = "avatarPath", target = "avatarPath")
-    @Mapping(source = "groupId", target = "group.id")
+    @Mapping(source = "avatarPath", target = "account.avatarPath")
+    @Mapping(source = "groupId", target = "account.group.id")
     @Mapping(source = "addressDtoList", target = "address",qualifiedByName = "fromEntityToAddressDtoList")
     User fromCreateUserFormToEntity(@Valid CreateUserForm createUserForm);
 
 
-    @Mapping(source = "fullName", target = "fullName")
-    @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "fullName", target = "account.fullName")
+    @Mapping(source = "phone", target = "account.phone")
     @Mapping(source = "gender", target = "gender")
-    @Mapping(source = "avatarPath", target = "avatarPath")
+    @Mapping(source = "avatarPath", target = "account.avatarPath")
     @Mapping(source = "addressDtoList", target = "address",qualifiedByName = "fromEntityToAddressDtoList")
     User fromUpdateUserFormToEntity(@Valid UpdateUserForm form);
 }

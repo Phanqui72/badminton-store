@@ -15,8 +15,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends Account {
+public class User {
+
+    @Id
+    private Long id;
     private Integer gender;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Address> address;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "account_id")
+    private Account account;
 }
+

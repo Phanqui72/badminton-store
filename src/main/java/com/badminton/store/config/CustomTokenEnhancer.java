@@ -34,8 +34,15 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         String username = authentication.getName();
         if (SecurityConstant.GRANT_TYPE_PASSWORD.equals(grantType)) {
             additionalInfo = getAdditionalInfo(null, username, grantType, null);
-        } else {
+            log.error("Vao pass");
+        }
+        else if(SecurityConstant.GRANT_TYPE_USER.equals(grantType)){
+            additionalInfo = getAdditionalInfoCustom(null, username, SecurityConstant.GRANT_TYPE_USER,null);
+            log.error("Vao user");
+        }
+        else {
             additionalInfo = getAdditionalInfoCustom(null, username, grantType, null);
+            log.error("vao ngoai");
         }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
@@ -94,7 +101,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
             String tenantId = "";
             additionalInfo.put("user_id", accountId);
             additionalInfo.put("user_kind", a.getKind());
-            additionalInfo.put("grant_type", grantType == null ? SecurityConstant.GRANT_TYPE_PASSWORD : grantType);
+            additionalInfo.put("grant_type", SecurityConstant.GRANT_TYPE_USER);
             additionalInfo.put("tenant_info", tenantId);
             String DELIM = "|";
             String additionalInfoStr = ZipUtils.zipString(accountId + DELIM

@@ -123,18 +123,6 @@ public class UserServiceImpl implements UserDetailsService {
         Map<String, Serializable> extensionProperties = new HashMap<>();
 
         Account account = accountRepository.findFirstByEmail(email).orElse(null);
-//        log.error("--- DEBUG CUỐI CÙNG ---");
-//        log.error("Email: {}", email);
-//        log.error("Password thô từ Postman: [{}]", password);
-//        log.error("Password hash lấy từ DB: [{}]", account.getPassword());
-//
-//        boolean match = passwordEncoder.matches(password, account.getPassword());
-//        log.info("Kết quả matches: {}", match);
-//
-//        if (!match) {
-//            log.error("Invalid password.");
-//            throw new UsernameNotFoundException("Invalid password.");
-//        }
         if (account == null) {
             log.error("Invalid email or password.");
             throw new UsernameNotFoundException("Invalid email or password.");
