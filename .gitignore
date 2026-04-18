@@ -54,3 +54,4 @@ src/main/resources/application-dev.properties
 ### --- Crash dumps ---
 *.hprof
 *.orig
+frontend

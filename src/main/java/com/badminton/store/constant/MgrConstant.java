@@ -21,6 +21,25 @@ public class MgrConstant {
     // Số điện thoại Việt Nam: Hỗ trợ đầu 0 hoặc +84, tiếp theo là 9 chữ số (Tổng 10 số)
     public static final String REGEX_PHONE_VN = "^(0|\\+84)(\\d{9})$";
 
+    // Order Status
+    public static final int ORDER_STATUS_PENDING = 0;   // Chờ xác nhận
+    public static final int ORDER_STATUS_CONFIRMED = 1; // Đã xác nhận
+    public static final int ORDER_STATUS_SHIPPING = 2;  // Đang giao hàng
+    public static final int ORDER_STATUS_COMPLETED = 3; // Hoàn thành
+    public static final int ORDER_STATUS_CANCELLED = -1; // Đã hủy
+
+    // Product Status
+    public static final int PRODUCT_STATUS_CANCELLED = 0;   // Chờ xác nhận
+    public static final int PRODUCT_STATUS_ACTIVE = 1; // Đã xác nhận
+
+    // Coupon Type
+    public static final int COUPON_TYPE_FIXED = 1;      // Giảm tiền mặt
+    public static final int COUPON_TYPE_PERCENTAGE = 2; // Giảm %
+
+    // Order Constant
+    public static final double TOTAL_ORDER_PRICE_DEFAULT = 0.0;
+    public static final int TOTAL_ITEM_DEFAULT = 0;
+
     private MgrConstant() {
         throw new IllegalStateException("Utility class");
     }
