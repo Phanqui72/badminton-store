@@ -22,6 +22,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Account extends Auditable<String> {
     private int kind;
     private String username;
@@ -48,4 +49,7 @@ public class Account extends Auditable<String> {
     private Integer attemptLogin;
     @Column(name = "is_super_admin")
     private Boolean isSuperAdmin = false;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.REMOVE)
+    private User user;
 }

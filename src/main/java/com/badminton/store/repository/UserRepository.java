@@ -1,0 +1,16 @@
+package com.badminton.store.repository;
+
+import com.badminton.store.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+    @Query("SELECT u FROM User u WHERE u.account.username = :username " +
+            "OR u.account.email = :email " +
+            "OR u.account.phone = :phone")
+    User findExistingUser(String username, String email, String phone);
+}
